@@ -25,14 +25,14 @@ Disinformasi adalah ancaman keamanan yang nyata: hoaks memicu kepanikan, mengger
 ### 3.1 Model Demo Langsung — TF-IDF + Logistic Regression
 - Representasi: TF-IDF kata (n-gram 1-2, sublinear, maks 20.000 fitur, min_df 2).
 - Klasifier: Logistic Regression (class_weight balanced).
-- Seluruh parameter model ini (leksikon 20.000 term beserta idf dan koefisiennya) diekspor ke `data/cakrawatch_lexicon.json` dan ditanam di dashboard, sehingga inferensi berjalan **sepenuhnya di browser pengunjung** tanpa server. Porting fungsi skornya terverifikasi identik dengan scikit-learn (simpangan probabilitas 0,0000 pada 224 teks uji).
-- File: `src/baseline_tfidf.py`, `data/cakrawatch_lexicon.json`, `data/cakrawatch_samples.json`.
+- Seluruh parameter model ini (leksikon 20.000 term beserta idf dan koefisiennya) diekspor ke `cakrawatch_lexicon.json` dan ditanam di dashboard, sehingga inferensi berjalan **sepenuhnya di browser pengunjung** tanpa server. Porting fungsi skornya terverifikasi identik dengan scikit-learn (simpangan probabilitas 0,0000 pada 224 teks uji).
+- File: `baseline_tfidf.py`, `cakrawatch_lexicon.json`, `cakrawatch_samples.json`.
 
 ### 3.2 Model Utama — IndoBERT (fine-tune)
 - Basis: `indolem/indobert-base-uncased` (IndoBERT, IndoLEM).
 - Fine-tune di Google Colab (GPU T4): learning rate 2e-5, batch 16, 5 epoch, panjang maksimum 256 token, loss berbobot kelas [HOAKS 0,817 · VALID 1,289], seed 42, model terbaik dipilih dari macro F1 per epoch (terbaik: epoch 3). Waktu training 2 menit 28 detik.
 - Penjelasan frasa pemicu memakai metode occlusion (kata dicabut satu per satu, penurunan probabilitas diukur).
-- File: `notebook/CakraWatch_IndoBERT_Colab.ipynb`.
+- File: `CakraWatch_IndoBERT_Colab.ipynb`.
 
 ## 4. Aturan Vonis Dashboard
 
@@ -47,7 +47,7 @@ Ambang ini dipilih mengikuti distribusi probabilitas model TF-IDF yang terkompre
 
 - Sumber inti: dataset TurnBackHoax pada repo GitHub `JibranFawaid/turnbackhoax-dataset` (data Mafindo/TurnBackHoax). 1.116 data berlabel dua kelas: 683 HOAKS (klaim/narasi) dan 433 VALID (artikel klarifikasi resmi). Dibagi stratifikasi 80/20 (892 latih, 224 uji), seed 42.
 - Cadangan ekspansi: 3.760 judul hoaks TurnBackHoax 2024 dari raihankalla.id (hanya kelas hoaks; judul memuat prefix vonis pemeriksa fakta yang harus dibuang karena label leakage).
-- Temuan data penting: augmentasi naif dengan 3.760 data hoaks menaikkan accuracy mentah tetapi **menjatuhkan F1 kelas VALID ke 0,78** (imbalance sekitar 10:1). Kesimpulan: penambahan data wajib diimbangi kelas valid sepadan atau class weighting. Rincian di `data/DATASET_NOTES.md`.
+- Temuan data penting: augmentasi naif dengan 3.760 data hoaks menaikkan accuracy mentah tetapi **menjatuhkan F1 kelas VALID ke 0,78** (imbalance sekitar 10:1). Kesimpulan: penambahan data wajib diimbangi kelas valid sepadan atau class weighting. Rincian di `DATASET_NOTES.md`.
 
 ## 6. Hasil Evaluasi (data uji 224, terukur, bukan klaim)
 
@@ -63,10 +63,10 @@ Catatan proses (transparansi): fine-tune pertama gagal total (macro F1 0,2831, m
 ## 7. Instalasi dan Cara Pakai
 
 ### 7.1 Dashboard (tanpa instalasi)
-Buka halaman dashboard CakraWatch (tautan pada halaman submission CodePolitan), tempel teks pada panel analisis, tekan **Analisis Sekarang**. Vonis, meter keyakinan, frasa pemicu, dan sorotan teks muncul seketika. Spesifikasi teknis dashboard ada di `docs/DASHBOARD_SPEC.md`.
+Buka halaman dashboard CakraWatch (tautan pada halaman submission CodePolitan), tempel teks pada panel analisis, tekan **Analisis Sekarang**. Vonis, meter keyakinan, frasa pemicu, dan sorotan teks muncul seketika. Spesifikasi teknis dashboard ada di `DASHBOARD_SPEC.md`.
 
 ### 7.2 Melatih ulang IndoBERT
-1. Buka `notebook/CakraWatch_IndoBERT_Colab.ipynb` di Google Colab.
+1. Buka `CakraWatch_IndoBERT_Colab.ipynb` di Google Colab.
 2. Pilih runtime GPU (T4): Runtime → Change runtime type → T4 GPU.
 3. Jalankan semua sel dari atas (dataset terunduh otomatis dari repo sumber).
 4. Sel evaluasi mencetak classification report dan perbandingan dengan baseline; sel terakhir menyimpan model terlatih.
@@ -74,7 +74,7 @@ Buka halaman dashboard CakraWatch (tautan pada halaman submission CodePolitan), 
 ### 7.3 Baseline TF-IDF
 ```
 pip install pandas scikit-learn
-python src/baseline_tfidf.py
+python baseline_tfidf.py
 ```
 Script melatih baseline pada dataset GitHub dan mencetak metrik Run A (dataset inti) dan Run B (augmentasi), termasuk demonstrasi dampak imbalance.
 
