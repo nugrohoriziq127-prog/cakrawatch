@@ -6,6 +6,13 @@ Tim CakraWatch (solo): **Nugroho Riziq Darmawan Nata Saputra**
 
 CakraWatch adalah sistem pemantau disinformasi berbahasa Indonesia. Pengguna menempelkan teks berita, klaim, atau pesan berantai, lalu sistem memberi **vonis HOAKS / MERAGUKU / VALID**, **skor keyakinan**, dan **penjelasan frasa pemicu** yang paling memengaruhi keputusan model. Tujuannya membantu analis dan masyarakat menyaring hoaks secara cepat dan transparan, sebagai bagian dari pertahanan domain kognitif (Siber Sosial).
 
+## Coba Dashboard Langsung
+
+Demo interaktif (model TF-IDF berjalan sepenuhnya di browser Anda):
+**https://nugrohoriziq127-prog.github.io/cakrawatch/**
+
+Tempel teks berita, klaim, atau pesan berantai, lalu tekan **Analisis Sekarang**. Vonis, skor keyakinan, dan frasa pemicu muncul seketika, tanpa instalasi apa pun.
+
 ---
 
 ## 1. Latar Belakang dan Relevansi
@@ -63,7 +70,7 @@ Catatan proses (transparansi): fine-tune pertama gagal total (macro F1 0,2831, m
 ## 7. Instalasi dan Cara Pakai
 
 ### 7.1 Dashboard (tanpa instalasi)
-Buka halaman dashboard CakraWatch (tautan pada halaman submission CodePolitan), tempel teks pada panel analisis, tekan **Analisis Sekarang**. Vonis, meter keyakinan, frasa pemicu, dan sorotan teks muncul seketika. Spesifikasi teknis dashboard ada di `DASHBOARD_SPEC.md`.
+Buka dashboard CakraWatch di **https://nugrohoriziq127-prog.github.io/cakrawatch/** (atau klik tautan pada bagian Coba Dashboard Langsung di atas), tempel teks pada panel analisis, tekan **Analisis Sekarang**. Vonis, meter keyakinan, frasa pemicu, dan sorotan teks muncul seketika. Spesifikasi teknis dashboard ada di `DASHBOARD_SPEC.md`.
 
 ### 7.2 Melatih ulang IndoBERT
 1. Buka `CakraWatch_IndoBERT_Colab.ipynb` di Google Colab.
